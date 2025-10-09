@@ -4,14 +4,14 @@ using TodoList.VIewModels;
 
 namespace TodoList.Helpers;
 
-public class AddCommand : ICommand
+public class GenericCommand : ICommand
 {
-    private readonly TodoViewModel todoViewModel;
+    private readonly Action<object?> executeAction;
     public event EventHandler? CanExecuteChanged;
 
-    public AddCommand(TodoViewModel todoViewModel)
+    public GenericCommand(Action<object?> executeAction)
     {
-        this.todoViewModel = todoViewModel;
+        this.executeAction = executeAction;
     }
 
     public bool CanExecute(object? parameter)
@@ -21,6 +21,6 @@ public class AddCommand : ICommand
 
     public void Execute(object? parameter)
     {
-        todoViewModel.AddTodo(parameter);
+        executeAction?.Invoke(parameter);
     }
 }
