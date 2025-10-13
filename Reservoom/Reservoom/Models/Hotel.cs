@@ -14,9 +14,9 @@ public class Hotel
         _reservationBook = new ReservationBook();
     }
 
-    public IEnumerable<Reservation> GetReservationsForUser(string username)
+    public IEnumerable<Reservation> GetAllReservations()
     {
-        return _reservationBook.GetReservationsForUser(username);
+        return _reservationBook.GetAllReservations();
     }
 
     public void MakeReservation(Reservation reservation)
