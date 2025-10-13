@@ -2,7 +2,7 @@ using System;
 
 namespace Reservoom.Models;
 
-public class Reservation
+public class Reservation 
 {
     public Reservation(RoomID roomID, string username, DateTime startDate, DateTime endDate)
     {
