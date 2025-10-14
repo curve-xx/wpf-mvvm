@@ -2,15 +2,17 @@ using System;
 using System.Windows.Input;
 using Reservoom.Commamds;
 using Reservoom.Models;
+using Reservoom.Services;
+using Reservoom.Stores;
 
 namespace Reservoom.ViewModels;
 
 public class MakeReservationViewModel : ViewModelBase
 {
-    public MakeReservationViewModel(Hotel hotel)
+    public MakeReservationViewModel(Hotel hotel, NavigationService reservationViewNavigationService)
     {
-        SubmitCommand = new MakeReservationCommand(this, hotel);
-        CancelCommand = new CancelMakeReservationCommand();
+        SubmitCommand = new MakeReservationCommand(this, hotel, reservationViewNavigationService);
+        CancelCommand = new NavigateCommand(reservationViewNavigationService);
     }
 
     private string? _username;
