@@ -8,7 +8,7 @@ using Reservoom.ViewModels;
 
 namespace Reservoom.Commamds;
 
-public class MakeReservationCommand : CommandBase
+public class MakeReservationCommand : AsyncCommandBase
 {
     private readonly MakeReservationViewModel _makeReservationViewModel;
     private readonly Hotel _hotel;
@@ -24,7 +24,7 @@ public class MakeReservationCommand : CommandBase
         _makeReservationViewModel.PropertyChanged += OnViewModelPropertyChanged;
     }    
 
-    public override void Execute(object? parameter)
+    public override async Task ExecuteAsync(object? parameter)
     {
         Reservation reservation = new Reservation(
             new RoomID(_makeReservationViewModel.FloorNumber, _makeReservationViewModel.RoomNumber),
@@ -35,7 +35,7 @@ public class MakeReservationCommand : CommandBase
 
         try
         {
-            _hotel.MakeReservation(reservation);
+            await _hotel.MakeReservation(reservation);
             MessageBox.Show("Successfully reserved room.", "Success",
                 MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -44,6 +44,11 @@ public class MakeReservationCommand : CommandBase
         catch (ReservationConflictException)
         {
             MessageBox.Show("The room is already taken.", "Error",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception)
+        {
+            MessageBox.Show("Failed to make reservation.", "Error",
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }

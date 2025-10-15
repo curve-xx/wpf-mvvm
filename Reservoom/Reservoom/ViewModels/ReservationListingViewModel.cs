@@ -20,17 +20,24 @@ public class ReservationListingViewModel : ViewModelBase
         _hotel = hotel;
         _reservations = new ObservableCollection<ReservationViewModel>();
 
+        LoadReservationCommand = new LoadReservationsCommand(this, _hotel);
         MakeReservationCommand = new NavigateCommand(makeReservationNavigationService);
-
-        UpdateReservations();
     }
 
+    public ICommand LoadReservationCommand { get; }
     public ICommand MakeReservationCommand { get; }
 
-    private void UpdateReservations()
+    public static ReservationListingViewModel LoadViewModel(Hotel hotel, NavigationService makeReservationNavigationService)
+    {
+        ReservationListingViewModel viewModel = new ReservationListingViewModel(hotel, makeReservationNavigationService);
+        viewModel.LoadReservationCommand.Execute(null);
+        return viewModel;
+    }
+
+    public void UpdateReservations(IEnumerable<Reservation> reservations)
     {
         _reservations.Clear();
-        foreach (Reservation reservation in _hotel.GetAllReservations())
+        foreach (Reservation reservation in reservations)
         {
             ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
             _reservations.Add(reservationViewModel);
