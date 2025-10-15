@@ -23,7 +23,7 @@ public class MakeReservationCommand : AsyncCommandBase
         _hotelStore = hotelStore;
         _reservationViewNavigationService = reservationViewNavigationService;
         _makeReservationViewModel.PropertyChanged += OnViewModelPropertyChanged;
-    }    
+    }
 
     public override async Task ExecuteAsync(object? parameter)
     {
@@ -40,7 +40,7 @@ public class MakeReservationCommand : AsyncCommandBase
             MessageBox.Show("Successfully reserved room.", "Success",
                 MessageBoxButton.OK, MessageBoxImage.Information);
 
-            // _reservationViewNavigationService.Navigate();
+            _reservationViewNavigationService.Navigate();
         }
         catch (ReservationConflictException)
         {

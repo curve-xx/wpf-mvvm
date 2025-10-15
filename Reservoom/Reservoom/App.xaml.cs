@@ -62,7 +62,7 @@ public partial class App : Application
 
     private ReservationListingViewModel CreateReservationViewModel()
     {
-        return ReservationListingViewModel.LoadViewModel(_hotelStore, CreateMakeReservationViewModel(), new NavigationService(_navigationStore, CreateMakeReservationViewModel));
+        return ReservationListingViewModel.LoadViewModel(_hotelStore, new NavigationService(_navigationStore, CreateMakeReservationViewModel));
     }
 }
 
