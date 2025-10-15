@@ -21,6 +21,7 @@ public partial class App : Application
 {
     private const string CONNECTION_STRING = "Data Source=reservoom.db";
     private readonly Hotel _hotel;
+    private readonly HotelStore _hotelStore;
     private readonly NavigationStore _navigationStore;
     private ReservoomDbContextFactory _reservoomDbContextFactory;
 
@@ -28,11 +29,12 @@ public partial class App : Application
     {
         _reservoomDbContextFactory = new ReservoomDbContextFactory(CONNECTION_STRING);
         IReservationProvider reservationProvider = new DatabaseReservationProvider(_reservoomDbContextFactory);
-        IReservationCreator reservationCreator=new DatabaseReservationCreator(_reservoomDbContextFactory);
+        IReservationCreator reservationCreator = new DatabaseReservationCreator(_reservoomDbContextFactory);
         IReservationConflictValidator reservationValidator = new DatabaseReservationConflictValidator(_reservoomDbContextFactory);
-        
+
         ReservationBook reservationBook = new ReservationBook(reservationProvider, reservationCreator, reservationValidator);
         _hotel = new Hotel("The Grand", reservationBook);
+        _hotelStore = new HotelStore(_hotel);
         _navigationStore = new NavigationStore();
     }
 
@@ -55,12 +57,12 @@ public partial class App : Application
 
     private MakeReservationViewModel CreateMakeReservationViewModel()
     {
-        return new MakeReservationViewModel(_hotel, new NavigationService(_navigationStore, CreateReservationViewModel));
+        return new MakeReservationViewModel(_hotelStore, new NavigationService(_navigationStore, CreateReservationViewModel));
     }
 
     private ReservationListingViewModel CreateReservationViewModel()
     {
-        return ReservationListingViewModel.LoadViewModel(_hotel, new NavigationService(_navigationStore, CreateMakeReservationViewModel));
+        return ReservationListingViewModel.LoadViewModel(_hotelStore, CreateMakeReservationViewModel(), new NavigationService(_navigationStore, CreateMakeReservationViewModel));
     }
 }
 
