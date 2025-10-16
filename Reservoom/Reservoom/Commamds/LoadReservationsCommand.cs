@@ -19,6 +19,7 @@ public class LoadReservationsCommand : AsyncCommandBase
 
     public override async Task ExecuteAsync(object? parameter)
     {
+        _viewModel.ErrorMessage = string.Empty;
         _viewModel.IsLoading = true;
 
         try
@@ -28,8 +29,7 @@ public class LoadReservationsCommand : AsyncCommandBase
         }
         catch (Exception)
         {
-            MessageBox.Show("Failed to load reservations.", "Error",
-                MessageBoxButton.OK, MessageBoxImage.Error);
+            _viewModel.ErrorMessage = "Failed to load reservations.";
         }
 
         _viewModel.IsLoading = false;

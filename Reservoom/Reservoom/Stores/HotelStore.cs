@@ -8,7 +8,7 @@ public class HotelStore
     private readonly Hotel _hotel;
     private readonly List<Reservation> _reservations;
     private Lazy<Task> _initializeLazy;
-    
+
     public IEnumerable<Reservation> Reservations => _reservations;
     public event Action<Reservation> ReservationsMade;
 
@@ -29,6 +29,7 @@ public class HotelStore
         catch (Exception)
         {
             _initializeLazy = new Lazy<Task>(Initailize());
+            throw;
         }
     }
 

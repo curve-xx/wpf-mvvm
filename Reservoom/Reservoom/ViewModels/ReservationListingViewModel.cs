@@ -15,7 +15,24 @@ public class ReservationListingViewModel : ViewModelBase
     private readonly ObservableCollection<ReservationViewModel> _reservations;
 
     public IEnumerable<ReservationViewModel> Reservations => _reservations;
-    
+
+    private string _errorMessage;
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (_errorMessage != value)
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage));
+                OnPropertyChanged(nameof(HasErrorMessage));
+            }
+        }
+    }
+
+    public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
+
     private bool _isLoading;
     public bool IsLoading
     {
