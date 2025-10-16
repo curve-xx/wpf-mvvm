@@ -48,22 +48,22 @@ public class ReservationListingViewModel : ViewModelBase
     }
 
     public ReservationListingViewModel(HotelStore hotelStore,
-        NavigationService makeReservationNavigationService)
+        NavigationService<MakeReservationViewModel> makeReservationNavigationService)
     {
         _hotelStore = hotelStore;
         _reservations = new ObservableCollection<ReservationViewModel>();
 
         LoadReservationCommand = new LoadReservationsCommand(this, hotelStore);
-        MakeReservationCommand = new NavigateCommand(makeReservationNavigationService);
+        MakeReservationCommand = new NavigateCommand<MakeReservationViewModel>(makeReservationNavigationService);
 
-        _hotelStore.ReservationsMade += OnReservationMade;
+        _hotelStore.ReservationMade += OnReservationMade;
     }
 
-    public override void Dispose()
-    {
-        _hotelStore.ReservationsMade -= OnReservationMade;
-        base.Dispose();
-    }
+    // public override void Dispose()
+    // {
+    //     _hotelStore.ReservationMade -= OnReservationMade;
+    //     base.Dispose();
+    // }
 
     private void OnReservationMade(Reservation reservation)
     {
@@ -77,7 +77,7 @@ public class ReservationListingViewModel : ViewModelBase
     public ICommand MakeReservationCommand { get; }
 
     public static ReservationListingViewModel LoadViewModel(HotelStore hotelStore,
-        NavigationService makeReservationNavigationService)
+        NavigationService<MakeReservationViewModel> makeReservationNavigationService)
     {
         ReservationListingViewModel viewModel = new ReservationListingViewModel(hotelStore, makeReservationNavigationService);
         viewModel.LoadReservationCommand.Execute(null);

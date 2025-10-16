@@ -13,11 +13,11 @@ public class MakeReservationCommand : AsyncCommandBase
 {
     private readonly MakeReservationViewModel _makeReservationViewModel;
     private readonly HotelStore _hotelStore;
-    private readonly NavigationService _reservationViewNavigationService;
+    private readonly NavigationService<ReservationListingViewModel> _reservationViewNavigationService;
 
     public MakeReservationCommand(MakeReservationViewModel makeReservationViewModel,
         HotelStore hotelStore,
-        NavigationService reservationViewNavigationService)
+        NavigationService<ReservationListingViewModel> reservationViewNavigationService)
     {
         _makeReservationViewModel = makeReservationViewModel;
         _hotelStore = hotelStore;
@@ -47,7 +47,7 @@ public class MakeReservationCommand : AsyncCommandBase
             MessageBox.Show("The room is already taken.", "Error",
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             MessageBox.Show("Failed to make reservation.", "Error",
                 MessageBoxButton.OK, MessageBoxImage.Error);

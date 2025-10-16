@@ -10,14 +10,14 @@ public class HotelStore
     private Lazy<Task> _initializeLazy;
 
     public IEnumerable<Reservation> Reservations => _reservations;
-    public event Action<Reservation> ReservationsMade;
+    public event Action<Reservation>? ReservationMade;
 
     public HotelStore(Hotel hotel)
     {
         _hotel = hotel;
-        _initializeLazy = new Lazy<Task>(Initailize());
-
         _reservations = new List<Reservation>();
+
+        _initializeLazy = new Lazy<Task>(() => Initialize());
     }
 
     public async Task Load()
@@ -28,7 +28,8 @@ public class HotelStore
         }
         catch (Exception)
         {
-            _initializeLazy = new Lazy<Task>(Initailize());
+            // If initialization failed, reset so next Load() retries
+            _initializeLazy = new Lazy<Task>(() => Initialize());
             throw;
         }
     }
@@ -39,15 +40,15 @@ public class HotelStore
 
         _reservations.Add(reservation);
 
-        OnReservationMade(reservation);
+        OnReservationsMade(reservation);
     }
 
-    private void OnReservationMade(Reservation reservation)
+    private void OnReservationsMade(Reservation reservation)
     {
-        ReservationsMade?.Invoke(reservation);
+        ReservationMade?.Invoke(reservation);
     }
 
-    private async Task Initailize()
+    private async Task Initialize()
     {
         IEnumerable<Reservation> reservations = await _hotel.GetAllReservations();
 

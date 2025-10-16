@@ -9,10 +9,10 @@ namespace Reservoom.ViewModels;
 
 public class MakeReservationViewModel : ViewModelBase, INotifyDataErrorInfo
 {
-    public MakeReservationViewModel(HotelStore hotelStore, NavigationService reservationViewNavigationService)
+    public MakeReservationViewModel(HotelStore hotelStore, NavigationService<ReservationListingViewModel> reservationViewNavigationService)
     {
         SubmitCommand = new MakeReservationCommand(this, hotelStore, reservationViewNavigationService);
-        CancelCommand = new NavigateCommand(reservationViewNavigationService);
+        CancelCommand = new NavigateCommand<ReservationListingViewModel>(reservationViewNavigationService);
 
         _propertyNameToErrorsDictionary = new Dictionary<string, List<string>>();
     }
