@@ -1,9 +1,7 @@
-using System;
-
 namespace Reservoom.Models;
 
 public class Hotel
-{
+{    
     private readonly ReservationBook _reservationBook;
 
     public string Name { get; }

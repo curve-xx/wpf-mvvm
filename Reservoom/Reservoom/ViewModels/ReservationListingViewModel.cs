@@ -15,6 +15,20 @@ public class ReservationListingViewModel : ViewModelBase
     private readonly ObservableCollection<ReservationViewModel> _reservations;
 
     public IEnumerable<ReservationViewModel> Reservations => _reservations;
+    
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            if (_isLoading != value)
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+    }
 
     public ReservationListingViewModel(HotelStore hotelStore,
         NavigationService makeReservationNavigationService)
